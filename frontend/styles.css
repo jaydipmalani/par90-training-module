@@ -1,0 +1,20 @@
+:root{ --bg:#0f1724; --card:#111827; --muted:#9ca3af; --accent:#10b981;}
+*{box-sizing:border-box}
+body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071024,#0b1220);color:#e6eef8;margin:0;padding:20px}
+.container{max-width:1100px;margin:0 auto}
+header h1{margin:0 0 12px}
+.controls{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.controls select, .controls button{padding:8px;border-radius:6px;border:1px solid #222;background:#0b1220;color:#e6eef8}
+main{display:grid;grid-template-columns:260px 1fr 240px;gap:12px}
+.csr-summary, .feedback{background:var(--card);padding:12px;border-radius:10px;min-height:160px}
+.chat{background:linear-gradient(180deg,#071428,#071a2a);padding:12px;border-radius:10px;display:flex;flex-direction:column}
+.chatWindow{flex:1;overflow:auto;padding:8px;border-radius:6px;background:rgba(255,255,255,0.02);margin-bottom:8px}
+.msg{padding:8px;margin:6px 0;border-radius:8px;max-width:80%}
+.msg.manager{background:rgba(16,185,129,0.12);align-self:flex-end}
+.msg.csr{background:rgba(99,102,241,0.06);align-self:flex-start}
+.inputRow{display:flex;gap:8px}
+.inputRow input{flex:1;padding:10px;border-radius:8px;border:1px solid #223;background:#071428;color:#e6eef8}
+.inputRow button{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#012018}
+#feedbackBadge{font-weight:700;margin-bottom:6px}
+#score{color:var(--muted);margin-bottom:6px}
+footer{margin-top:12px;color:var(--muted)}

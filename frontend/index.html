@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>PAR90 Coaching — Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header><h1>PAR90 Coaching Module</h1></header>
+
+    <section class="controls">
+      <label>Scenario:
+        <select id="scenarioSelect">
+          <option value="default">Default: Missed callback, unsure funds</option>
+          <option value="noAnswer">No answer — wrong number flagged</option>
+          <option value="promisedMissed">Promised callback missed</option>
+        </select>
+      </label>
+      <button id="generatePlan">Generate Action Plan</button>
+    </section>
+
+    <main>
+      <aside class="csr-summary" id="csrSummary">
+        <h3>CSR summary</h3>
+        <div id="csrText">Pick a scenario to view CSR context.</div>
+      </aside>
+
+      <section class="chat">
+        <div id="chatWindow" class="chatWindow"></div>
+        <div class="inputRow">
+          <input id="managerInput" placeholder="Type your coaching message to the CSR..." />
+          <button id="sendBtn">Send</button>
+        </div>
+      </section>
+
+      <aside class="feedback" id="feedbackPanel">
+        <h3>Feedback</h3>
+        <div id="feedbackBadge">—</div>
+        <div id="score">Score: —</div>
+        <div id="reasons"></div>
+      </aside>
+    </main>
+
+    <footer>
+      <small>Hybrid rule-based demo — optional OpenAI enrichment if server has an API key.</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
