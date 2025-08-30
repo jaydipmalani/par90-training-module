@@ -29,7 +29,6 @@ function matchCount(text, keywords) {
 
 export function evaluateManagerMessage(text) {
   text = (text || "").trim();
-  // Normalize and remove excessive punctuation for matching
   const normalized = text.toLowerCase().replace(/[^a-z0-9\s?'"]/g, ' ').replace(/\s+/g, ' ').trim();
 
   // Keyword lists (expand as you like)
@@ -49,7 +48,6 @@ export function evaluateManagerMessage(text) {
   const positiveKeywords = ["thanks", "thank you", "appreciate", "good", "great", "let's work"];
   const negativeKeywords = ["why didn't", "you didn't", "fail", "never", "shame", "blame", "should have", "should've"];
 
-  // Compute hits (open questions count includes question marks)
   const qmCount = (text.match(/\?/g) || []).length;
   const openCount = qmCount + matchCount(normalized, openQuestionKeywords);
 
@@ -87,7 +85,6 @@ export function evaluateManagerMessage(text) {
     rawScores.empathy + rawScores.openQuestions + rawScores.concreteNextStep + rawScores.accountability + rawScores.tone
   );
 
-  // Build reasons but keep them mutable (we may override for empathy-only case)
   let reasons = [];
   if (rawScores.empathy > 0) reasons.push("Showed empathy");
   if (rawScores.openQuestions > 0) reasons.push("Used open questions");
@@ -99,7 +96,6 @@ export function evaluateManagerMessage(text) {
     reasons.push("Consider more collaborative open questions and a clear next step");
   }
 
-  // If empathy is the only positive bucket, force reasons to only the empathy note
   if ((rawScores.empathy || 0) > 0 && nonEmpathySum === 0) {
     reasons = ["Showed empathy"];
   }
@@ -114,7 +110,6 @@ export function evaluateManagerMessage(text) {
 
 
 export function simulateCSRReply(managerMessage, feedback, scenarioId="default") {
-  // Very small stateful simulation: we adapt the CSR reply based on feedback score.
   const score = feedback.score || 0;
 
   // Base templates
@@ -136,7 +131,6 @@ export function simulateCSRReply(managerMessage, feedback, scenarioId="default")
   let reply = "";
   if (score < 40) {
     reply = templates.low[Math.floor(Math.random()*templates.low.length)];
-    // Add CSR defensive phrase
     reply += " I was worried about pushing too hard.";
   } else if (score < 65) {
     reply = templates.mid[Math.floor(Math.random()*templates.mid.length)];
@@ -146,7 +140,6 @@ export function simulateCSRReply(managerMessage, feedback, scenarioId="default")
     reply += " I can confirm and log the callback in the tracker.";
   }
 
-  // Include suggested manager hint at the end for clarity (this is not shown to CSR)
   return reply;
 }
 
@@ -158,20 +151,16 @@ export function generateActionPlan(managerMessage, feedback, scenarioId="default
   const rs = feedback.rawScores || {};
   const items = [];
 
-  // Max points per area (as defined in evaluateManagerMessage)
   const maxPoints = { empathy: 20, openQuestions: 20, concreteNextStep: 25, accountability: 20, tone: 15 };
 
-  // Detect empathy-only case: empathy > 0 and all other buckets are effectively zero
   const isEmpathyOnly = (rs.empathy || 0) > 0 &&
                         ((rs.openQuestions || 0) === 0) &&
                         ((rs.concreteNextStep || 0) === 0) &&
                         ((rs.accountability || 0) === 0) &&
                         ((rs.tone || 0) === 0);
 
-  // Determine weaknesses
   let weaknesses = [];
   if (isEmpathyOnly) {
-    // User wants the plan to give the *other* three items when only "sorry"/empathy exists
     weaknesses = ["Open questions", "Concrete next steps", "Accountability"];
   } else {
     if ((rs.empathy||0) < maxPoints.empathy * 0.9) weaknesses.push("Empathy");
@@ -181,7 +170,6 @@ export function generateActionPlan(managerMessage, feedback, scenarioId="default
   }
 
   if (weaknesses.length === 0) {
-    // Perfect coaching → single action item
     items.push({
       title: "Next steps",
       detail: "Continue your current coaching approach. Track top 5 at-risk customers and maintain follow-up discipline.",
