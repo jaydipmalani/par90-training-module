@@ -62,7 +62,7 @@ You put the OpenAI key in the `.env` file. Good. Here is the recommended format 
 ```
 PORT=3000
 OPENAI_ENABLED=true
-OPENAI_API_KEY=sk-REPLACE_WITH_YOUR_KEY
+OPENAI_API_KEY=sk-REPLACE_WITH_YOUR_KEY(Currently its xxxxxxxxxx)
 ```
 - `OPENAI_API_KEY` — your secret key. Keep it private. Do **not** commit `.env` or push the key.
 - `OPENAI_ENABLED` — set to `false` or remove the key to run in rule-only mode.
