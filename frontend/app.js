@@ -42,7 +42,6 @@ async function sendManagerMessage() {
   appendMessage("manager", text);
   conversation.push({from:"manager", text});
   managerInput.value = "";
-  // show temporary loader
   appendMessage("csr", "Thinking...");
   const resp = await fetch("/api/coach", {
     method:"POST",
@@ -53,7 +52,6 @@ async function sendManagerMessage() {
       managerMessage: text
     })
   }).then(r => r.json()).catch(err => ({error:err.message}));
-  // remove "Thinking..." placeholder (last message if it's the placeholder)
   const msgs = chatWindow.querySelectorAll(".msg");
   if (msgs.length) {
     const last = msgs[msgs.length-1];
@@ -65,14 +63,12 @@ async function sendManagerMessage() {
   }
   appendMessage("csr", resp.csrReply || "—");
   conversation.push({from:"csr", text: resp.csrReply || ""});
-  // update feedback
   feedbackBadge.innerText = resp.feedback.badge;
   scoreEl.innerText = "Score: " + resp.feedback.score;
   reasonsEl.innerText = resp.feedback.reasons.join(", ");
 }
 
 generatePlanBtn.addEventListener("click", async ()=> {
-  // use last manager message for plan if available
   const lastManager = [...conversation].reverse().find(c=>c.from==="manager");
   const managerMessage = lastManager?.text || "";
   const resp = await fetch("/api/coach", {
@@ -84,7 +80,7 @@ generatePlanBtn.addEventListener("click", async ()=> {
       managerMessage
     })
   }).then(r=>r.json());
-  // show plan in a modal-like alert (simple)
+
   const plan = resp.actionPlan;
   const lines = plan.items.map((it,idx)=> `${idx+1}. ${it.title} — ${it.detail} (when: ${it.when}, owner: ${it.owner})`).join("\n\n");
   alert("Action Plan:\n\n" + lines);

@@ -13,14 +13,11 @@ function scorePresence(text, patterns) {
   return matched;
 }
 
-// ---------- replace the old scorePresence + evaluateManagerMessage with this ----------
 
-/* Helper: count phrase/keyword matches (whole-word / phrase safe) */
 function matchCount(text, keywords) {
   if (!text) return 0;
   let cnt = 0;
   for (const kw of keywords) {
-    // escape regex meta-characters in the keyword, allow flexible whitespace between words
     const escaped = kw.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     const pattern = '\\b' + escaped.replace(/\s+/g, '\\s+') + '\\b';
     const re = new RegExp(pattern, 'i');
@@ -29,7 +26,7 @@ function matchCount(text, keywords) {
   return cnt;
 }
 
-// replace your evaluateManagerMessage with this updated version
+
 export function evaluateManagerMessage(text) {
   text = (text || "").trim();
   // Normalize and remove excessive punctuation for matching
@@ -97,7 +94,6 @@ export function evaluateManagerMessage(text) {
   if (rawScores.concreteNextStep > 0) reasons.push("Offered a concrete next step");
   if (rawScores.accountability > 0) reasons.push("Set accountability or follow-up");
 
-  // only append the "consider..." suggestion if there are other weaknesses (not when empathy is the only positive)
   const nonEmpathySum = (rawScores.openQuestions || 0) + (rawScores.concreteNextStep || 0) + (rawScores.accountability || 0) + (rawScores.tone || 0);
   if (total < 50 && nonEmpathySum > 0) {
     reasons.push("Consider more collaborative open questions and a clear next step");
@@ -154,7 +150,6 @@ export function simulateCSRReply(managerMessage, feedback, scenarioId="default")
   return reply;
 }
 
-// replace your generateActionPlan with this updated version
 export function generateActionPlan(managerMessage, feedback, scenarioId="default") {
   if (!managerMessage || managerMessage.trim() === "") {
     return { items: [] };
@@ -234,6 +229,4 @@ export function generateActionPlan(managerMessage, feedback, scenarioId="default
 
   return { items };
 }
-
-
 

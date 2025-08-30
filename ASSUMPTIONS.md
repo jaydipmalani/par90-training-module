@@ -23,4 +23,3 @@ Design assumptions & unique heuristics
 5. Privacy
    - No real customer data is included. Replace dummy scenarios with sanitized real data if you deploy.
 
-These heuristics and scoring allocations were crafted to reflect managerial coaching behaviours and are not generic LLM-provided text.

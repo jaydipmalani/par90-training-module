@@ -16,10 +16,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve frontend static files
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-// Simple health
 app.get("/api/health", (req, res) => res.json({status: "ok"}));
 
 /*
@@ -39,9 +37,7 @@ Response:
 app.post("/api/coach", async (req, res) => {
   try {
     const {scenarioId="default", conversation=[], managerMessage=""} = req.body || {};
-    // Evaluate manager message
     const feedback = evaluateManagerMessage(managerMessage);
-    // Simulate CSR reply (rule-based)
     let csrReply = simulateCSRReply(managerMessage, feedback, scenarioId);
 
     // Optionally enrich with OpenAI if API key available
@@ -56,7 +52,6 @@ app.post("/api/coach", async (req, res) => {
       }
     }
 
-    // Action plan: only when requested by frontend; but return a short one too
     const actionPlan = generateActionPlan(managerMessage, feedback, scenarioId);
 
     res.json({
@@ -70,7 +65,6 @@ app.post("/api/coach", async (req, res) => {
   }
 });
 
-// Fallback to index.html for SPA routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
