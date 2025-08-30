@@ -55,7 +55,8 @@ This keeps the tool auditable (you can always inspect `rules.js` to see why the 
 
 ---
 
-## .env and OpenAI usage (what you said you already did)
+## .env and OpenAI usage
+First you need to duplicate .env.example file with .env in server (because .env file is nt allowed to push in git repo)
 You put the OpenAI key in the `.env` file. Good. Here is the recommended format and how the app uses it:
 
 **`.env` (example)**
